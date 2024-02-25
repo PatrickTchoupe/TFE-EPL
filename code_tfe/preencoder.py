@@ -26,15 +26,18 @@ class PreEncoder(object):
         # fit pre-encoder for target pre-encoding
         if dataset.task == "regression":
             self.target_preencoder = None 
-            # if numerical target is transformed, do not omit to inverse tranform before evaluation
+            # if numerical target is transformed, do not omit to inverse transform before evaluation
         if dataset.task == "classification":
             self.target_preencoder = LabelEncoder()
             self.target_preencoder.fit(dataset.y.values)
 
     def aggregate_feature_data(self, X, aggregation, force_independence):
 
-        # X is a list of lenght m where m is the number of features. Each j-th element of the list is an array of size (n, dj)
-        # where n is the sample size, and dj is the dimenstion of the pre-encoding of feature j.
+        # X is a list of length m where m is the number of features. Each j-th element of the list is an array of size (n, dj)
+        # where n is the sample size, and dj is the dimension of the pre-encoding of feature j.
+
+    
+        print(f"size de x0 {X[0].shape}")
 
         n_samples = X[0].shape[0] # n
         m_features = len(X) # m
@@ -42,6 +45,8 @@ class PreEncoder(object):
         feature_dimensions = []
         for feature_data in X:
             feature_dimensions.append(feature_data.shape[1]) # d_j where j goes from 1 to m
+
+        
 
         if aggregation == 'feature':
 
@@ -59,7 +64,7 @@ class PreEncoder(object):
                     start_idx = end_idx
 
                 X_agg =  X_agg.transpose(1,0,2) # shape (m, n, d) --> shape (n, m, d)
-
+                
             else: # in this case, all d_j's must be equal, otherwise np.array(X) will raise a ValueError ! (inhomogeneous dimensions)
                 X_agg = np.array(X) # shape (m, n, dj)  , in this case we have dj = d for all j
                 X_agg = X_agg.transpose(1, 0, 2) # shape (m, n, d) --> (n, m, d)
