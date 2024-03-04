@@ -24,6 +24,7 @@ dataset_loader = OpenmlDatasetLoader()
 dataset = dataset_loader.load(task_id)
 dataset.print_info()
 
+
 dataset_train, dataset_test = dataset_train_test_split(dataset, frac=0.7)
 
 preencoder = PreEncoder()

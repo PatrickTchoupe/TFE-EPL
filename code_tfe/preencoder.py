@@ -80,6 +80,7 @@ class PreEncoder(object):
 
         # pre-encoding features
         X = self.features_preencoder.transform(dataset.X.values)
+        print(X)
         X = self.aggregate_feature_data(X, aggregation, force_independence)
 
         # pre-encoding target
