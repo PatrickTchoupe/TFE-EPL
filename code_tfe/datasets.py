@@ -3,6 +3,10 @@ import warnings
 import numpy as np
 import pandas as pd
 
+seed_valeur = 42  # Vous pouvez choisir n'importe quelle valeur
+np.random.seed(seed_valeur)
+
+
 
 # Utility class to display informations about the openml's dataset downloaded 
 
@@ -49,7 +53,10 @@ class OpenmlDatasetLoader(object):
         # retrieve data
         X, y, categorical_indicator, _ = raw_dataset.get_data(dataset_format="dataframe", 
                                                               target=raw_dataset.default_target_attribute)
-
+        for i,column in enumerate(X.columns):
+            if X[column].nunique() == 1:
+                X.drop(column, axis=1, inplace=True)
+                categorical_indicator.pop(i)
         # retrieve task type
         if task.task_type == "Supervised Regression":
             task = "regression" 

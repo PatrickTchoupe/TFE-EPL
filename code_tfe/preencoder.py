@@ -11,15 +11,15 @@ class PreEncoder(object):
         self.method = method
     
 
-    def fit(self, dataset):
+    def fit(self, dataset,emb=8):
         
         # fit pre-encoder for feature pre-encoding
         if self.method == 'baseline':
             self.features_preencoder = BaselinePreEncoder()
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         elif self.method == 'feature2vec':
-            self.features_preencoder = Feature2VecPreEncoder()
-            self.features_preencoder.fit(dataset.X.values)
+            self.features_preencoder = Feature2VecPreEncoder(embedding_dim=emb)
+            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         else:
             raise ValueError("Unknown pre-encoding method")
         
@@ -37,7 +37,7 @@ class PreEncoder(object):
         # where n is the sample size, and dj is the dimension of the pre-encoding of feature j.
 
     
-        print(f"size de x0 {X[0].shape}")
+        #print(f"size de x0 {X[0].shape}")
 
         n_samples = X[0].shape[0] # n
         m_features = len(X) # m
@@ -46,7 +46,6 @@ class PreEncoder(object):
         for feature_data in X:
             feature_dimensions.append(feature_data.shape[1]) # d_j where j goes from 1 to m
 
-        
 
         if aggregation == 'feature':
 
@@ -64,7 +63,7 @@ class PreEncoder(object):
                     start_idx = end_idx
 
                 X_agg =  X_agg.transpose(1,0,2) # shape (m, n, d) --> shape (n, m, d)
-                
+
             else: # in this case, all d_j's must be equal, otherwise np.array(X) will raise a ValueError ! (inhomogeneous dimensions)
                 X_agg = np.array(X) # shape (m, n, dj)  , in this case we have dj = d for all j
                 X_agg = X_agg.transpose(1, 0, 2) # shape (m, n, d) --> (n, m, d)
@@ -80,7 +79,6 @@ class PreEncoder(object):
 
         # pre-encoding features
         X = self.features_preencoder.transform(dataset.X.values)
-        print(X)
         X = self.aggregate_feature_data(X, aggregation, force_independence)
 
         # pre-encoding target

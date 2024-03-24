@@ -4,6 +4,10 @@ import torch
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 
+seed_valeur = 42  # Vous pouvez choisir n'importe quelle valeur
+np.random.seed(seed_valeur)
+torch.manual_seed(seed_valeur)
+
 class MyDataset(Dataset):
     def __init__(self, X, y=None, train=False):
 
@@ -54,7 +58,7 @@ class ToyFeatureNN(nn.Module):
 
     def __init__(self, in_dim, m_features, hidden_dim):
         super(ToyFeatureNN, self).__init__()
-
+        
         self.mix1 = nn.Linear(m_features, m_features, bias=False)
         self.enc1 = nn.Linear(in_dim, hidden_dim)  
 
