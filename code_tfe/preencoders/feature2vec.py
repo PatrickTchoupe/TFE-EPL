@@ -5,10 +5,10 @@ import torch
 from torch import nn
 import torch.optim as optim
 
-seed_valeur = 42  # Vous pouvez choisir n'importe quelle valeur
+seed_value = 42  
 
-np.random.seed(seed_valeur)
-torch.manual_seed(seed_valeur)
+np.random.seed(seed_value)
+torch.manual_seed(seed_value)
 
 ###########################################################################################
 
@@ -98,8 +98,7 @@ class DataCategorizer(object):
     # Returns the transformed feature; an array of size (n, d) where n is the number of sample and d=sum_j(d_j) is the "vocabulary size" (sum of output dim of each transformations)
     def _transform_numerical(self, feature_data, feature_transform_info):
 
-        print(feature_data.shape)
-
+        
         n_samples = feature_data.shape[0]
         transformed_data = np.zeros((n_samples, self.categories_count))
         feature_transform = feature_transform_info.transform
@@ -192,7 +191,7 @@ class NegativeSamplingLoss(nn.Module):
 
 ###########################################################################################
 
-# Rlass for sampling the triplet (target_cat, context_cat, negative_cat)       
+# class for sampling the triplet (target_cat, context_cat, negative_cat)       
 class BatchSampler(object):
 
     def __init__(self, data, data_transform_info, batch_size, k_negative):
@@ -212,7 +211,7 @@ class BatchSampler(object):
 
         return cat_per_feature
     
-    # Allows to easily find the indices of the categories expressed in a a given sample
+    # Allows to easily find the indices of the categories expressed in a given sample
     # Returns a list of size n_samples where each element j is itself a list containing the indices of the categories expressed in sample j
     def _get_categories_per_sample(self,):
 
@@ -377,7 +376,7 @@ class Feature2VecPreEncoder(object):
 
     # Transforms a dataset with Feature2Vec preencoder.
     # First, the data is transformed using the fitted data_categorizer
-    # Then, we replace each category by its embeddind
+    # Then, we replace each category by its embeddings
     # Returns a list of size m_features where each element j of the list is an array of size (n_samples, embedding_dim) which contains the embeddings for feature j (for all samples)
     def transform(self, X):
 

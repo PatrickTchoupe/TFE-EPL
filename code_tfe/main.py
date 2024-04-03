@@ -19,12 +19,13 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 # 361116 compass
 # 361099 Bike_Sharing_Demand
 # 361102 house_sales
-
-ids = [361066,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102]
-method = ["baseline","feature2vec"]
+# ,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102
+ids = [361076]
+method = ["baseline","feature2vec","numEncoder"]
 
 emb_size = [8,20,50,100,180,200]
 
+relative_perf ={}
 results = {}
 
 for task_id in ids :
@@ -39,7 +40,7 @@ for task_id in ids :
 
     for m in method : 
         
-        preencoder = PreEncoder(method="feature2vec")
+        preencoder = PreEncoder(method="numEncoder")
         preencoder.fit(dataset_train)
         
         dataset_train, dataset_val = dataset_train_test_split(dataset_train, frac=0.7)
@@ -73,13 +74,16 @@ for task_id in ids :
         #prediction and evaluation
         y_pred = model.predict(X_test)
 
+
+        print(f"Labels {y_test[:10]}")
+        print(f"Predictions of the model {y_pred[:10]}")
+
         #distinction a faire pour la classification et la regression 
         if dataset.task == "classification":
             accuracy = accuracy_score(y_test, y_pred)
-            results[task_id][m] = (dataset.task,accuracy)
+            results[task_id][m] = (dataset.task,accuracy*100)
         else:
             rmse = mean_squared_error(y_test, y_pred, squared=False)
             results[task_id][m] = (dataset.task,rmse)
 
-print(results)
 

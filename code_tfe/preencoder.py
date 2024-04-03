@@ -4,6 +4,7 @@ from sklearn.preprocessing import  LabelEncoder
 
 from preencoders.baseline import BaselinePreEncoder
 from preencoders.feature2vec import Feature2VecPreEncoder
+from preencoders.num_encoder import NumPreEncoder
 
 class PreEncoder(object):
 
@@ -19,6 +20,9 @@ class PreEncoder(object):
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         elif self.method == 'feature2vec':
             self.features_preencoder = Feature2VecPreEncoder(embedding_dim=emb)
+            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
+        elif self.method == 'numEncoder':
+            self.features_preencoder = NumPreEncoder()
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         else:
             raise ValueError("Unknown pre-encoding method")
