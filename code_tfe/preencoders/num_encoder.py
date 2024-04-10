@@ -9,7 +9,18 @@ from rtdl_num_embeddings import (
     PiecewiseLinearEmbeddings,
     compute_bins,
 )
+import numpy as np
 
+class MyDataset(torch.utils.data.Dataset):
+    def __init__(self, X):
+        self.X = X
+
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, idx):
+       r = np.array(self.X[idx])
+       return list(r)
 
 class FeatureTransformInfo(object):
 
@@ -20,10 +31,10 @@ class FeatureTransformInfo(object):
 
 class NumPreEncoder(object):
 
-    def __init__(self,):
+    def __init__(self,batch_size=100):
 
         self.feature_transform_info_list  = []
-    
+        self.batch_size = batch_size
 
     # encoding of the ctaegrocial feature,using a one hot encoding 
     def _fit_categorical(self, feature_data):
@@ -39,16 +50,19 @@ class NumPreEncoder(object):
 
     # simple normalisation of the numerical features
     def _fit_numerical(self, feature_data):
-
+        d_embeddings = 8
         num_tensor = torch.tensor(feature_data, dtype=torch.float32)
         bins = compute_bins(num_tensor)
-        emb = PiecewiseLinearEmbeddings(bins,8,activation=False)
+        print(f"taille de bins {bins[0].shape}")
+        emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
 
+        output_dim = sum(len(b) - 1 for b in bins)
         new_rep = emb(num_tensor)
+        print(f"representation {len(new_rep)}")
 
         return FeatureTransformInfo(is_categorical=False,
                                     transform=emb,
-                                    output_dim=8)
+                                    output_dim=output_dim)
 
     def fit(self, X, categorical_indicator):
 
@@ -63,8 +77,8 @@ class NumPreEncoder(object):
             
             self.feature_transform_info_list.append(feature_transform_info)
     
-    def transform(self, X):
-
+    """ def transform(self, X):
+        
         transformed_features = []
 
         for feature_idx, feature_transform_info in enumerate(self.feature_transform_info_list):
@@ -73,7 +87,36 @@ class NumPreEncoder(object):
             feature_transform = feature_transform_info.transform
             feature_data_tensor = torch.tensor(feature_data, dtype=torch.float32)
             transformed_feature = feature_transform(feature_data_tensor)
+
+            #print(transformed_feature.shape)
             transformed_features.append(transformed_feature.detach().numpy())
-        print(len(transformed_features[0][0][0]))
+        
         #transformed_features = transformed_features.transpose(1,0,2) #(m, n, d) --> (n, m, d)
+        return transformed_features """
+    
+    def transform(self, X):
+        transformed_features = []
+        num_samples = X.shape[0]
+        num_batches = (num_samples + self.batch_size - 1) // self.batch_size
+        for batch_idx in range(num_batches):
+            start_idx = batch_idx * self.batch_size
+            end_idx = min((batch_idx + 1) * self.batch_size, num_samples)
+            batch_X = X[start_idx:end_idx]
+            transformed_batch = self._transform_batch(batch_X)
+            transformed_features.append(transformed_batch)
         return transformed_features
+
+    def _transform_batch(self, X_batch):
+        batch_transformed_features = []
+        
+        for feature_idx, feature_transform_info in enumerate(self.feature_transform_info_list):
+
+            feature_data = X_batch[:,feature_idx].reshape(-1,1)
+            feature_transform = feature_transform_info.transform
+            feature_data_tensor = torch.tensor(feature_data, dtype=torch.float32)
+            transformed_feature = feature_transform(feature_data_tensor)
+
+            #print(transformed_feature.shape)
+            batch_transformed_features.append(transformed_feature.squeeze().detach().numpy())
+        print(batch_transformed_features[0].shape)
+        return np.array(batch_transformed_features)

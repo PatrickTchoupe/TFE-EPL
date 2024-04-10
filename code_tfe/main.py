@@ -20,8 +20,11 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 # 361099 Bike_Sharing_Demand
 # 361102 house_sales
 # ,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102
-ids = [361076]
-method = ["baseline","feature2vec","numEncoder"]
+
+ids = [361076,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102]
+
+#"baseline","feature2vec",
+method = ["numEncoder"]
 
 emb_size = [8,20,50,100,180,200]
 
@@ -40,7 +43,7 @@ for task_id in ids :
 
     for m in method : 
         
-        preencoder = PreEncoder(method="numEncoder")
+        preencoder = PreEncoder(method=m)
         preencoder.fit(dataset_train)
         
         dataset_train, dataset_val = dataset_train_test_split(dataset_train, frac=0.7)
@@ -75,9 +78,7 @@ for task_id in ids :
         y_pred = model.predict(X_test)
 
 
-        print(f"Labels {y_test[:10]}")
-        print(f"Predictions of the model {y_pred[:10]}")
-
+        
         #distinction a faire pour la classification et la regression 
         if dataset.task == "classification":
             accuracy = accuracy_score(y_test, y_pred)
@@ -86,4 +87,4 @@ for task_id in ids :
             rmse = mean_squared_error(y_test, y_pred, squared=False)
             results[task_id][m] = (dataset.task,rmse)
 
-
+print(results)

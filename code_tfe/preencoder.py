@@ -44,7 +44,9 @@ class PreEncoder(object):
         #print(f"size de x0 {X[0].shape}")
 
         n_samples = X[0].shape[0] # n
+        print(f"size de x0 {X[0].shape}")
         m_features = len(X) # m
+        print(f"size de X {len(X)}")
 
         feature_dimensions = []
         for feature_data in X:
@@ -61,6 +63,7 @@ class PreEncoder(object):
 
                 start_idx = 0
                 end_idx = 0
+                
                 for j,feature_data in enumerate(X):
                     end_idx += feature_dimensions[j]
                     X_agg[:,:,start_idx:end_idx] = feature_data
@@ -80,9 +83,10 @@ class PreEncoder(object):
         return X_agg
 
     def transform(self, dataset, aggregation='feature', force_independence=True):
-
+        print(f"size de X {len(dataset.X.values)}")
         # pre-encoding features
         X = self.features_preencoder.transform(dataset.X.values)
+        print(f"size de X {len(X)}")
         X = self.aggregate_feature_data(X, aggregation, force_independence)
 
         # pre-encoding target
