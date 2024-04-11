@@ -51,8 +51,11 @@ class NumPreEncoder(object):
 
     # simple normalisation of the numerical features
     def _fit_numerical(self, feature_data,num="encoding"):
-
-        num_tensor = torch.tensor(feature_data, dtype=torch.float32)
+        
+        if feature_data.dtype == np.object_:
+            num_tensor = torch.from_numpy(feature_data.astype(float))
+        else:
+            num_tensor = torch.tensor(feature_data, dtype=torch.float32)
         bins = compute_bins(num_tensor)
 
         #SI on utilise PLEncoding
@@ -75,9 +78,12 @@ class NumPreEncoder(object):
             
             feature_data = X[:, feature_idx].reshape(-1,1)
 
+            
+
             if is_categorical:
                 feature_transform_info = self._fit_categorical(feature_data)
             else:
+                print(f"feature_data {feature_data} {feature_data.dtype}")
                 feature_transform_info = self._fit_numerical(feature_data,num=num)
             
             self.feature_transform_info_list.append(feature_transform_info)

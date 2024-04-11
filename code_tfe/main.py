@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 # 361102 house_sales
 # ,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102
 
-ids = [361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102]
+ids = [361110]
 
 #"baseline","feature2vec",
 method = ["numEncoder"]
