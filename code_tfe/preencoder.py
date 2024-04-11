@@ -23,7 +23,7 @@ class PreEncoder(object):
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         elif self.method == 'numEncoder':
             self.features_preencoder = NumPreEncoder()
-            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
+            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator,num="embedding")
         else:
             raise ValueError("Unknown pre-encoding method")
         
@@ -44,14 +44,14 @@ class PreEncoder(object):
         #print(f"size de x0 {X[0].shape}")
 
         n_samples = X[0].shape[0] # n
-        print(f"size de x0 {X[0].shape}")
+        
         m_features = len(X) # m
-        print(f"size de X {len(X)}")
-
+        
         feature_dimensions = []
         for feature_data in X:
             feature_dimensions.append(feature_data.shape[1]) # d_j where j goes from 1 to m
 
+        print(f"feature_dimensions {feature_dimensions}")
 
         if aggregation == 'feature':
 
@@ -83,10 +83,11 @@ class PreEncoder(object):
         return X_agg
 
     def transform(self, dataset, aggregation='feature', force_independence=True):
-        print(f"size de X {len(dataset.X.values)}")
+
+        
         # pre-encoding features
         X = self.features_preencoder.transform(dataset.X.values)
-        print(f"size de X {len(X)}")
+        
         X = self.aggregate_feature_data(X, aggregation, force_independence)
 
         # pre-encoding target

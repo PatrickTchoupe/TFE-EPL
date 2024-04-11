@@ -2,6 +2,7 @@
 from sklearn.preprocessing import OneHotEncoder, QuantileTransformer
 import torch
 import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
 from rtdl_num_embeddings import (
     LinearReLUEmbeddings,
     PeriodicEmbeddings,
@@ -49,22 +50,26 @@ class NumPreEncoder(object):
 
 
     # simple normalisation of the numerical features
-    def _fit_numerical(self, feature_data):
-        d_embeddings = 8
+    def _fit_numerical(self, feature_data,num="encoding"):
+
         num_tensor = torch.tensor(feature_data, dtype=torch.float32)
         bins = compute_bins(num_tensor)
-        print(f"taille de bins {bins[0].shape}")
-        emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
 
-        output_dim = sum(len(b) - 1 for b in bins)
-        new_rep = emb(num_tensor)
-        print(f"representation {len(new_rep)}")
+        #SI on utilise PLEncoding
+        if num == "encoding":
+            emb = PiecewiseLinearEncoding(bins)
+            output_dim = bins[0].shape[0]
+        else:
+            #SI on utilise PLEmbeddings
+            d_embeddings = 8
+            emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
+            output_dim = d_embeddings
 
         return FeatureTransformInfo(is_categorical=False,
                                     transform=emb,
                                     output_dim=output_dim)
 
-    def fit(self, X, categorical_indicator):
+    def fit(self, X, categorical_indicator,num="encoding"):
 
         for feature_idx, is_categorical in enumerate(categorical_indicator):
             
@@ -73,11 +78,11 @@ class NumPreEncoder(object):
             if is_categorical:
                 feature_transform_info = self._fit_categorical(feature_data)
             else:
-                feature_transform_info = self._fit_numerical(feature_data)
+                feature_transform_info = self._fit_numerical(feature_data,num=num)
             
             self.feature_transform_info_list.append(feature_transform_info)
     
-    """ def transform(self, X):
+    def transform(self, X):
         
         transformed_features = []
 
@@ -89,12 +94,12 @@ class NumPreEncoder(object):
             transformed_feature = feature_transform(feature_data_tensor)
 
             #print(transformed_feature.shape)
-            transformed_features.append(transformed_feature.detach().numpy())
+            transformed_features.append(transformed_feature.squeeze().detach().numpy())
         
         #transformed_features = transformed_features.transpose(1,0,2) #(m, n, d) --> (n, m, d)
-        return transformed_features """
+        return transformed_features
     
-    def transform(self, X):
+    """ def transform(self, X):
         transformed_features = []
         num_samples = X.shape[0]
         num_batches = (num_samples + self.batch_size - 1) // self.batch_size
@@ -118,5 +123,5 @@ class NumPreEncoder(object):
 
             #print(transformed_feature.shape)
             batch_transformed_features.append(transformed_feature.squeeze().detach().numpy())
-        print(batch_transformed_features[0].shape)
         return np.array(batch_transformed_features)
+ """
