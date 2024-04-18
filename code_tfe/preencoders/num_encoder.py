@@ -50,21 +50,23 @@ class NumPreEncoder(object):
 
 
     # simple normalisation of the numerical features
-    def _fit_numerical(self, feature_data,num="encoding"):
+    def _fit_numerical(self, feature_data,num):
         
         if feature_data.dtype == np.object_:
             num_tensor = torch.from_numpy(feature_data.astype(float))
         else:
             num_tensor = torch.tensor(feature_data, dtype=torch.float32)
-        bins = compute_bins(num_tensor)
 
-        #SI on utilise PLEncoding
+        # randomly fixed number of bins at 10
+        bins = compute_bins(num_tensor, n_bins=10)
+
+        #if we use PLEncoding
         if num == "encoding":
             emb = PiecewiseLinearEncoding(bins)
             output_dim = bins[0].shape[0]
         else:
             #SI on utilise PLEmbeddings
-            d_embeddings = 8
+            d_embeddings = 5
             emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
             output_dim = d_embeddings
 
@@ -78,12 +80,9 @@ class NumPreEncoder(object):
             
             feature_data = X[:, feature_idx].reshape(-1,1)
 
-            
-
             if is_categorical:
                 feature_transform_info = self._fit_categorical(feature_data)
             else:
-                print(f"feature_data {feature_data} {feature_data.dtype}")
                 feature_transform_info = self._fit_numerical(feature_data,num=num)
             
             self.feature_transform_info_list.append(feature_transform_info)
@@ -96,38 +95,22 @@ class NumPreEncoder(object):
 
             feature_data = X[:,feature_idx].reshape(-1,1)
             feature_transform = feature_transform_info.transform
-            feature_data_tensor = torch.tensor(feature_data, dtype=torch.float32)
-            transformed_feature = feature_transform(feature_data_tensor)
 
-            #print(transformed_feature.shape)
-            transformed_features.append(transformed_feature.squeeze().detach().numpy())
-        
-        #transformed_features = transformed_features.transpose(1,0,2) #(m, n, d) --> (n, m, d)
+            # Special case for dataset with categorical features
+            if feature_data.dtype == np.object_ :
+                if feature_transform_info.is_categorical != True:
+                    feature_data = feature_data.astype(float)
+                    tmp = np.array(feature_data,dtype=float)
+                    data_tensor = torch.from_numpy(tmp.astype("float32"))
+            else:
+                data_tensor = torch.tensor(feature_data, dtype=torch.float32)
+
+            #Different cases for the transformation(categorical or numerical)
+            if isinstance(feature_transform, OneHotEncoder):
+                transformed_feature = feature_transform.transform(feature_data)
+                transformed_features.append(transformed_feature)
+            else:
+                transformed_feature = feature_transform(data_tensor)
+                transformed_features.append(transformed_feature.squeeze().detach().numpy())
+            
         return transformed_features
-    
-    """ def transform(self, X):
-        transformed_features = []
-        num_samples = X.shape[0]
-        num_batches = (num_samples + self.batch_size - 1) // self.batch_size
-        for batch_idx in range(num_batches):
-            start_idx = batch_idx * self.batch_size
-            end_idx = min((batch_idx + 1) * self.batch_size, num_samples)
-            batch_X = X[start_idx:end_idx]
-            transformed_batch = self._transform_batch(batch_X)
-            transformed_features.append(transformed_batch)
-        return transformed_features
-
-    def _transform_batch(self, X_batch):
-        batch_transformed_features = []
-        
-        for feature_idx, feature_transform_info in enumerate(self.feature_transform_info_list):
-
-            feature_data = X_batch[:,feature_idx].reshape(-1,1)
-            feature_transform = feature_transform_info.transform
-            feature_data_tensor = torch.tensor(feature_data, dtype=torch.float32)
-            transformed_feature = feature_transform(feature_data_tensor)
-
-            #print(transformed_feature.shape)
-            batch_transformed_features.append(transformed_feature.squeeze().detach().numpy())
-        return np.array(batch_transformed_features)
- """

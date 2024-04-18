@@ -21,7 +21,10 @@ class PreEncoder(object):
         elif self.method == 'feature2vec':
             self.features_preencoder = Feature2VecPreEncoder(embedding_dim=emb)
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
-        elif self.method == 'numEncoder':
+        elif self.method == 'numEncoder_encoding':
+            self.features_preencoder = NumPreEncoder()
+            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
+        elif self.method == 'numEncoder_Embeddings':
             self.features_preencoder = NumPreEncoder()
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator,num="embedding")
         else:
@@ -40,8 +43,6 @@ class PreEncoder(object):
         # X is a list of length m where m is the number of features. Each j-th element of the list is an array of size (n, dj)
         # where n is the sample size, and dj is the dimension of the pre-encoding of feature j.
 
-    
-        #print(f"size de x0 {X[0].shape}")
 
         n_samples = X[0].shape[0] # n
         

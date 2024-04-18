@@ -21,10 +21,23 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 # 361102 house_sales
 # ,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102
 
-ids = [361110]
 
-#"baseline","feature2vec",
-method = ["numEncoder"]
+# Num encoding PLE ENCODING memory error for { 361088 (79 features); Aggregation: feature; force_independence: True;} 
+# Probleme aussi quand il y'a des features categorielles pour PLE EMBEDDING
+
+""" Faire deja les experiments et recolter les résultats 
+- Pour chaque dataset, pour chaque méthode de pre-encoding, pour chaque méthode de pre-encoding, pour chaque taille d'embedding,
+- Faire une moyenne des résultats pour chaque dataset
+- Faire une moyenne des résultats pour chaque méthode de pre-encoding
+- Faire une moyenne des résultats pour chaque taille d'embedding
+
+ """
+
+ids = [361066,361076,361085,361088,361089,361110,361111,361112,361114,361116,361099,361102]
+
+#aggregation_method = ["feature","sample"]
+
+method = ["baseline","numEncoder_encoding","numEncoder_Embeddings","feature2vec"]
 
 emb_size = [8,20,50,100,180,200]
 
@@ -33,7 +46,6 @@ results = {}
 
 for task_id in ids :
     results[task_id] = {}
-    #task_id =  361099 #361076
 
     dataset_loader = OpenmlDatasetLoader()
     dataset = dataset_loader.load(task_id)
@@ -77,9 +89,7 @@ for task_id in ids :
         #prediction and evaluation
         y_pred = model.predict(X_test)
 
-
-        
-        #distinction a faire pour la classification et la regression 
+        #different evaluation metrics 
         if dataset.task == "classification":
             accuracy = accuracy_score(y_test, y_pred)
             results[task_id][m] = (dataset.task,accuracy*100)

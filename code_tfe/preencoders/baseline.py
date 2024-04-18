@@ -59,7 +59,11 @@ class BaselinePreEncoder(object):
         for feature_idx, feature_transform_info in enumerate(self.feature_transform_info_list):
 
             feature_data = X[:,feature_idx].reshape(-1,1)
+
+            
             feature_transform = feature_transform_info.transform
+
+
             transformed_feature = feature_transform.transform(feature_data)
             transformed_features.append(transformed_feature)
             
