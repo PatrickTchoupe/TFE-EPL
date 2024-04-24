@@ -30,7 +30,7 @@ class FeatureTransformInfo(object):
         self.transform = transform
         self.output_dim = output_dim
 
-class NumPreEncoder(object):
+class NumPreEmbedder(object):
 
     def __init__(self,batch_size=100):
 
@@ -48,6 +48,7 @@ class NumPreEncoder(object):
                                     transform=ohe,
                                     output_dim=output_dim)
 
+
     # simple normalisation of the numerical features
     def _fit_numerical(self, feature_data):
         
@@ -58,10 +59,12 @@ class NumPreEncoder(object):
 
         # randomly fixed number of bins at 10
         bins = compute_bins(num_tensor, n_bins=10)
-    
-        emb = PiecewiseLinearEncoding(bins)
-        output_dim = bins[0].shape[0]
-    
+
+       
+        d_embeddings = 5
+        emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
+        output_dim = d_embeddings
+
         return FeatureTransformInfo(is_categorical=False,
                                     transform=emb,
                                     output_dim=output_dim)
@@ -103,6 +106,6 @@ class NumPreEncoder(object):
                 transformed_features.append(transformed_feature)
             else:
                 transformed_feature = feature_transform(data_tensor)
-                transformed_features.append(transformed_feature.detach().numpy())
+                transformed_features.append(transformed_feature.squeeze().detach().numpy())
             
         return transformed_features

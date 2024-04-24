@@ -25,6 +25,8 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 # Num encoding PLE ENCODING memory error for { 361088 (79 features); Aggregation: feature; force_independence: True;} 
 # Probleme aussi quand il y'a des features categorielles pour PLE EMBEDDING
 
+# issues with dataset 361112
+
 """ Faire deja les experiments et recolter les résultats 
 - Pour chaque dataset, pour chaque méthode de pre-encoding, pour chaque méthode de pre-encoding, pour chaque taille d'embedding,
 - Faire une moyenne des résultats pour chaque dataset
@@ -32,13 +34,14 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 - Faire une moyenne des résultats pour chaque taille d'embedding
 
  """
+#[361066,361076,361085,361088,361089,361110,361111,361112,361114,361116,361099,361102]
 
 ids = [361066,361076,361085,361088,361089,361110,361111,361112,361114,361116,361099,361102]
 
 #aggregation_method = ["feature","sample"]
 
-method = ["baseline","numEncoder_encoding","numEncoder_Embeddings","feature2vec"]
-
+# ["baseline","numEncoder_encoding","numEncoder_Embeddings","feature2vec"]
+method = ["baseline","numEncoder_Encoding","numEncoder_Embeddings","feature2vec"]
 emb_size = [8,20,50,100,180,200]
 
 relative_perf ={}
@@ -60,12 +63,13 @@ for task_id in ids :
         
         dataset_train, dataset_val = dataset_train_test_split(dataset_train, frac=0.7)
 
-        aggregation = 'feature'
+        aggregation = 'sample'
+        force_independence = False
 
-        if m == "feature2vec" :
+        """ if m == "feature2vec" :
             force_independence = False
         else:
-            force_independence = True
+            force_independence = True """
 
 
         X_train, y_train = preencoder.transform(dataset_train, aggregation=aggregation, force_independence=force_independence)
