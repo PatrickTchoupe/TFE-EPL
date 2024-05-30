@@ -7,6 +7,10 @@ from preencoders.feature2vec import Feature2VecPreEncoder
 from preencoders.num_encoder import NumPreEncoder
 from preencoders.num_Embeddings import NumPreEmbedder
 
+""" elif self.method == 'numEncoder_Embeddings':
+            self.features_preencoder = NumPreEmbedder()
+            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator) """
+
 class PreEncoder(object):
 
     def __init__(self, method='baseline'):
@@ -24,9 +28,6 @@ class PreEncoder(object):
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         elif self.method == 'numEncoder_Encoding':
             self.features_preencoder = NumPreEncoder()
-            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
-        elif self.method == 'numEncoder_Embeddings':
-            self.features_preencoder = NumPreEmbedder()
             self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator)
         else:
             raise ValueError("Unknown pre-encoding method")
@@ -53,7 +54,6 @@ class PreEncoder(object):
         for feature_data in X:
             feature_dimensions.append(feature_data.shape[1]) # d_j where j goes from 1 to m
 
-        print(f"feature_dimensions {feature_dimensions}")
 
         if aggregation == 'feature':
 
@@ -85,8 +85,7 @@ class PreEncoder(object):
         return X_agg
 
     def transform(self, dataset, aggregation='feature', force_independence=True):
-
-        
+    
         # pre-encoding features
         X = self.features_preencoder.transform(dataset.X.values)
         X = self.aggregate_feature_data(X, aggregation, force_independence)

@@ -4,7 +4,7 @@ import torch
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 
-seed_valeur = 42  # Vous pouvez choisir n'importe quelle valeur
+seed_valeur = 42  # 
 np.random.seed(seed_valeur)
 torch.manual_seed(seed_valeur)
 
@@ -107,7 +107,7 @@ class ToyModel(object):
 
     def fit(self, x_train, y_train, x_val, y_val):
 
-        train_data = MyDataset(x_train, y_train, train=True)
+        train_data = MyDataset(x_train, y_train, train=True) 
         train_loader = DataLoader(train_data, batch_size=256, shuffle=True)
 
         val_data = MyDataset(x_val, y_val, train=True)

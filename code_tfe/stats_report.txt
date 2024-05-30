@@ -1,0 +1,92 @@
+Baseline - classification and MLP
+
+{'bank-marketing': {'baseline': 0.611},
+ 'electricity': {'baseline': 0.354},
+ 'KDDCup09_upselling': {'baseline': 1.016},
+ 'compass': {'baseline': 0.497}}
+
+Baseline - regression MLP
+
+{'wine_quality': {'baseline': 0.005},
+ 'california': {'baseline': 0.005},
+ 'Bike_Sharing_Demand': {'baseline': 2.232},
+ 'house_sales': {'baseline': 0.006}}
+
+
+Baseline - classification Transformer
+
+{'bank-marketing': {'baseline': 0.614},
+ 'electricity': {'baseline': 0.235},
+ 'KDDCup09_upselling': {'baseline': 0.844},
+ 'compass': {'baseline': 0.662}}
+
+Baseline - regresison Transformer
+
+{'wine_quality': {'baseline': 0.01},
+ 'california': {'baseline': 0.004},
+ 'Bike_Sharing_Demand': {'baseline': 2.444},
+ 'house_sales': {'baseline': 0.015}}
+
+ -------------------------------------------------------------------------------------------------
+
+Num encoding - classification and MLP
+
+std {361066: {'numEncoder_Encoding': 0.939}, 361110: {'numEncoder_Encoding': 0.362}, 
+ 361112: {'numEncoder_Encoding': 0.566},
+ 361116: {'numEncoder_Encoding': 0.499}}
+
+Num encoding - regresison and MLP
+
+std
+{'wine_quality': {'numEncoder_Encoding': 0.007},
+ 'california': {'numEncoder_Encoding': 0.002},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 7.657},
+ 'house_sales': {'numEncoder_Encoding': 0.003}}
+
+Num encoding - classification and Trasnformer
+
+std
+{'bank-marketing': {'numEncoder_Encoding': 2.091},
+ 'electricity': {'numEncoder_Encoding': 0.375},
+ 'KDDCup09_upselling': {'numEncoder_Encoding': 0.945},
+ 'compass': {'numEncoder_Encoding': 0.666}}
+
+ Num encoding - regresison and Transformer
+
+std
+
+{'wine_quality': {'numEncoder_Encoding': 0.008},
+ 'california': {'numEncoder_Encoding': 0.002},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 1.997},
+ 'house_sales': {'numEncoder_Encoding': 0.016}}
+
+
+ -------------------------------------------------------------------------------------------------
+
+ Feature2Vec - regression Transformer
+
+ {'wine_quality': {'feature2vec': 0.004},
+ 'california': {'feature2vec': 0.003},
+ 'Bike_Sharing_Demand': {'feature2vec': 2.15},
+ 'house_sales': {'feature2vec': 0.011}}
+
+Feature2Vec - regression MLP
+
+{'wine_quality': {'feature2vec': 0.005},
+ 'california': {'feature2vec': 0.002},
+ 'Bike_Sharing_Demand': {'feature2vec': 1.689},
+ 'house_sales': {'feature2vec': 0.003}}
+
+Feature2Vec - classification MLP
+
+{'bank-marketing': {'feature2vec': 0.239},
+ 'electricity': {'feature2vec': 0.21},
+ 'KDDCup09_upselling': {'feature2vec': 0.935},
+ 'compass': {'feature2vec': 0.24}}
+
+Feature2Vec - classification Transformer
+
+{'bank-marketing': {'feature2vec': 0.232},
+ 'electricity': {'feature2vec': 0.584},
+ 'KDDCup09_upselling': {'feature2vec': 1.074},
+ 'compass': {'feature2vec': 0.652}}

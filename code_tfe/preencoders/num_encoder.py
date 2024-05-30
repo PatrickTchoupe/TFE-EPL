@@ -56,8 +56,8 @@ class NumPreEncoder(object):
         else:
             num_tensor = torch.tensor(feature_data, dtype=torch.float32)
 
-        # randomly fixed number of bins at 10
-        bins = compute_bins(num_tensor, n_bins=10)
+        # randomly fixed number of bins at 8
+        bins = compute_bins(num_tensor, n_bins=8)
     
         emb = PiecewiseLinearEncoding(bins)
         output_dim = bins[0].shape[0]

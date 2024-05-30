@@ -4,9 +4,11 @@ from sklearn.preprocessing import OneHotEncoder, KBinsDiscretizer
 import torch
 from torch import nn
 import torch.optim as optim
+import random
 
 seed_value = 42  
 
+random.seed(seed_value)
 np.random.seed(seed_value)
 torch.manual_seed(seed_value)
 
@@ -28,7 +30,7 @@ class DataCategorizer(object):
 
     def __init__(self, n_bins=3, strategy='kmeans'):
 
-        self.n_bins = n_bins # number of bins for dicretizing the numerical features
+        self.n_bins = n_bins # number of bins for discretizing the numerical features
         self.strategy = strategy
         
         # initialize list for storing all information about tranformations applied on each feature
@@ -62,7 +64,7 @@ class DataCategorizer(object):
                                     output_dim=output_dim,
                                     span_idx=span_idx)
     
-    # Fits one-hot encoder on each numerical feature and a discretizer on each unmerical feature
+    # Fits one-hot encoder on each numerical feature and a discretizer on each numerical feature
     # It appends all information about transforms to a list initialized in the __init__ method
     def fit(self, X, categorical_indicator):
 

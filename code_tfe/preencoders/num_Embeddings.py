@@ -61,7 +61,7 @@ class NumPreEmbedder(object):
         bins = compute_bins(num_tensor, n_bins=10)
 
        
-        d_embeddings = 5
+        d_embeddings = 8
         emb = PiecewiseLinearEmbeddings(bins,d_embedding=d_embeddings,activation=False)
         output_dim = d_embeddings
 

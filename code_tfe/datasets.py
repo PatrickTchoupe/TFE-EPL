@@ -2,9 +2,12 @@ import openml
 import warnings
 import numpy as np
 import pandas as pd
+import random
 
-seed_valeur = 42  # Vous pouvez choisir n'importe quelle valeur
-np.random.seed(seed_valeur)
+
+""" seed_value = 42  # for reproductible results
+np.random.seed(seed_value)
+random.seed(seed_value) """
 
 
 
@@ -75,9 +78,12 @@ class OpenmlDatasetLoader(object):
         return dataset
 
 # Perform a split on the dataset with 70% for the training data
-def dataset_train_test_split(dataset, frac=0.7):
+def dataset_train_test_split(dataset, frac=0.7,seed_value=42):
 
-    X_train = dataset.X.sample(frac=frac)
+    np.random.seed(seed_value)
+    random.seed(seed_value)
+
+    X_train = dataset.X.sample(frac=frac,random_state=seed_value)
     y_train = dataset.y.loc[X_train.index]
     X_test = dataset.X.drop(X_train.index)
     y_test = dataset.y.drop(X_train.index)
