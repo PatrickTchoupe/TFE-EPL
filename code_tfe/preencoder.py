@@ -7,9 +7,9 @@ from preencoders.feature2vec import Feature2VecPreEncoder
 from preencoders.num_encoder import NumPreEncoder
 from preencoders.num_Embeddings import NumPreEmbedder
 
-""" elif self.method == 'numEncoder_Embeddings':
-            self.features_preencoder = NumPreEmbedder()
-            self.features_preencoder.fit(dataset.X.values, dataset.categorical_indicator) """
+
+# The base of this code comes from the following source:
+# edouard.couplet@uclouvain.be
 
 class PreEncoder(object):
 
@@ -44,8 +44,6 @@ class PreEncoder(object):
 
         # X is a list of length m where m is the number of features. Each j-th element of the list is an array of size (n, dj)
         # where n is the sample size, and dj is the dimension of the pre-encoding of feature j.
-
-
         n_samples = X[0].shape[0] # n
         
         m_features = len(X) # m

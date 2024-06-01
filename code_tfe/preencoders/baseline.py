@@ -1,6 +1,7 @@
-
 from sklearn.preprocessing import OneHotEncoder, QuantileTransformer
 
+# All the code come from the following source:
+# edouard.couplet@uclouvain.be
 
 class FeatureTransformInfo(object):
 

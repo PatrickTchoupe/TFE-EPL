@@ -11,43 +11,20 @@ import numpy as np
 
 # 361066 bank-marketing
 # 361076 wine_quality
-# 361085 sulfur
-# 361088 superconduct
 # 361089 california
 # 361110 electricity
-# 361111 eye_movements
 # 361112 KDDCup09_upselling
-# 361114 rl
 # 361116 compass
 # 361099 Bike_Sharing_Demand
 # 361102 house_sales
-# ,361076,361085,361088,361089,361110,361111,361112,361114,361116, 361099,361102
 
 
-# Num encoding PLE ENCODING memory error for { 361088 (79 features); Aggregation: feature; force_independence: True;} 
-# Probleme aussi quand il y'a des features categorielles pour PLE EMBEDDING
+ids = [361066,361076,361085,361088,361089,361110,361111,361112,361114,361116,361099,361102]
 
-# issues with dataset 361112
 
-""" Faire deja les experiments et recolter les résultats 
-- Pour chaque dataset, pour chaque méthode de pre-encoding, pour chaque méthode de pre-encoding, pour chaque taille d'embedding,
-- Faire une moyenne des résultats pour chaque dataset
-- Faire une moyenne des résultats pour chaque méthode de pre-encoding
-- Faire une moyenne des résultats pour chaque taille d'embedding
-emb_size = [8,20,50,100,180,200]
- """
-#[361066,361076,361085,361088,361089,361110,361111,361112,361114,361116,361099,361102]
-
-ids = [361066,361110,361111,361112,361114,361116]
-
-#aggregation_method = ["feature","sample"]
-#["baseline","numEncoder_Encoding","feature2vec"]
-
-method = ["numEncoder_Encoding"]
+method = ["baseline","numEncoder_Encoding","feature2vec"]
 random_seeds = [42, 123, 456, 789, 101112]
 
-
-relative_perf ={}
 results = {}
 std = {}
 
@@ -75,16 +52,16 @@ for task_id in ids :
             preencoder = PreEncoder(method=m)
             preencoder.fit(dataset_train)
             
-            dataset_train, dataset_val = dataset_train_test_split(dataset_train, frac=0.7,seed_value=seed)
+            dataset_val, dataset_test = dataset_train_test_split(dataset_test, frac=1/3, seed_value=seed)
 
             aggregation = 'sample'
 
             force_independence = False
             
-            """ if m == "feature2vec" :
+            if m == "feature2vec" :
                 force_independence = False
             else:
-                force_independence = True """
+                force_independence = True
 
 
             X_train, y_train = preencoder.transform(dataset_train, aggregation=aggregation, force_independence=force_independence)
@@ -118,7 +95,5 @@ for task_id in ids :
         std[task_id][m] = round(np.std(performances),3)
         results[task_id][m] = round(np.mean(performances),3)
 
-
-#Evaluation. For each tuned configuration, we run 15 experiments with different random seeds and report the average performance on the test set.
 print(f"results {results}")
 print(f"std {std}")

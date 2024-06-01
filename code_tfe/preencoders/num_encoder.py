@@ -32,11 +32,11 @@ class FeatureTransformInfo(object):
 
 class NumPreEncoder(object):
 
-    def __init__(self,batch_size=100):
+    def __init__(self,batch_size=100, n_bins=8):
 
         self.feature_transform_info_list  = []
         self.batch_size = batch_size
-
+        self.n_bins = n_bins
     # encoding of the ctaegrocial feature,using a one hot encoding 
     def _fit_categorical(self, feature_data):
 
@@ -57,7 +57,7 @@ class NumPreEncoder(object):
             num_tensor = torch.tensor(feature_data, dtype=torch.float32)
 
         # randomly fixed number of bins at 8
-        bins = compute_bins(num_tensor, n_bins=8)
+        bins = compute_bins(num_tensor, n_bins=self.n_bins)
     
         emb = PiecewiseLinearEncoding(bins)
         output_dim = bins[0].shape[0]

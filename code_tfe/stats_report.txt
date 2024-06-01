@@ -1,92 +1,108 @@
-Baseline - classification and MLP
+STD 
+{'bank-marketing': {'baseline': 1.389},
+ 'electricity': {'baseline': 0.77},
+ 'KDDCup09_upselling': {'baseline': 1.447},
+ 'compass': {'baseline': 1.082},
+ 'wine_quality': {'baseline': 0.011},
+ 'california': {'baseline': 0.007},
+ 'Bike_Sharing_Demand': {'baseline': 1.677},
+ 'house_sales': {'baseline': 0.03}}
 
-{'bank-marketing': {'baseline': 0.611},
- 'electricity': {'baseline': 0.354},
- 'KDDCup09_upselling': {'baseline': 1.016},
- 'compass': {'baseline': 0.497}}
+Results
 
-Baseline - regression MLP
+{'bank-marketing': {'baseline': 78.412},
+ 'electricity': {'baseline': 85.422},
+ 'KDDCup09_upselling': {'baseline': 76.103},
+ 'compass': {'baseline': 76.526},
+ 'wine_quality': {'baseline': 0.668},
+ 'california': {'baseline': 0.164},
+ 'Bike_Sharing_Demand': {'baseline': 50.908},
+ 'house_sales': {'baseline': 0.213}}
 
-{'wine_quality': {'baseline': 0.005},
- 'california': {'baseline': 0.005},
- 'Bike_Sharing_Demand': {'baseline': 2.232},
- 'house_sales': {'baseline': 0.006}}
 
+STD MLP
 
-Baseline - classification Transformer
+{'bank-marketing': {'baseline': 1.038},
+ 'electricity': {'baseline': 0.507},
+ 'KDDCup09_upselling': {'baseline': 2.025},
+ 'compass': {'baseline': 0.952},
+ 'wine_quality': {'baseline': 0.013},
+ 'california': {'baseline': 0.006},
+ 'Bike_Sharing_Demand': {'baseline': 2.328},
+ 'house_sales': {'baseline': 0.007}}
 
-{'bank-marketing': {'baseline': 0.614},
- 'electricity': {'baseline': 0.235},
- 'KDDCup09_upselling': {'baseline': 0.844},
- 'compass': {'baseline': 0.662}}
+ Metrics MLP
 
-Baseline - regresison Transformer
-
-{'wine_quality': {'baseline': 0.01},
- 'california': {'baseline': 0.004},
- 'Bike_Sharing_Demand': {'baseline': 2.444},
- 'house_sales': {'baseline': 0.015}}
-
- -------------------------------------------------------------------------------------------------
-
-Num encoding - classification and MLP
-
-std {361066: {'numEncoder_Encoding': 0.939}, 361110: {'numEncoder_Encoding': 0.362}, 
- 361112: {'numEncoder_Encoding': 0.566},
- 361116: {'numEncoder_Encoding': 0.499}}
-
-Num encoding - regresison and MLP
-
-std
-{'wine_quality': {'numEncoder_Encoding': 0.007},
- 'california': {'numEncoder_Encoding': 0.002},
- 'Bike_Sharing_Demand': {'numEncoder_Encoding': 7.657},
- 'house_sales': {'numEncoder_Encoding': 0.003}}
-
-Num encoding - classification and Trasnformer
-
-std
-{'bank-marketing': {'numEncoder_Encoding': 2.091},
- 'electricity': {'numEncoder_Encoding': 0.375},
- 'KDDCup09_upselling': {'numEncoder_Encoding': 0.945},
- 'compass': {'numEncoder_Encoding': 0.666}}
-
- Num encoding - regresison and Transformer
-
-std
-
-{'wine_quality': {'numEncoder_Encoding': 0.008},
- 'california': {'numEncoder_Encoding': 0.002},
- 'Bike_Sharing_Demand': {'numEncoder_Encoding': 1.997},
- 'house_sales': {'numEncoder_Encoding': 0.016}}
-
+ {'bank-marketing': {'baseline': 78.563},
+ 'electricity': {'baseline': 83.941},
+ 'KDDCup09_upselling': {'baseline': 75.308},
+ 'compass': {'baseline': 75.974},
+ 'wine_quality': {'baseline': 0.677},
+ 'california': {'baseline': 0.158},
+ 'Bike_Sharing_Demand': {'baseline': 87.612},
+ 'house_sales': {'baseline': 0.204}}
 
  -------------------------------------------------------------------------------------------------
+STD - Transformer numEncoder_Encoding
 
+{'bank-marketing': {'numEncoder_Encoding': 1.039},
+ 'electricity': {'numEncoder_Encoding': 0.623},
+ 'KDDCup09_upselling': {'numEncoder_Encoding': 1.625},
+ 'compass': {'numEncoder_Encoding': 0.594},
+ 'wine_quality': {'numEncoder_Encoding': 0.008},
+ 'california': {'numEncoder_Encoding': 0.004},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 1.269},
+ 'house_sales': {'numEncoder_Encoding': 0.02}}
+
+Metrics
+
+{'bank-marketing': {'numEncoder_Encoding': 76.087},
+ 'electricity': {'numEncoder_Encoding': 85.511},
+ 'KDDCup09_upselling': {'numEncoder_Encoding': 77.137},
+ 'compass': {'numEncoder_Encoding': 76.887},
+ 'wine_quality': {'numEncoder_Encoding': 0.68},
+ 'california': {'numEncoder_Encoding': 0.161},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 45.184},
+ 'house_sales': {'numEncoder_Encoding': 0.204}}
+
+ STD - MLP results
+
+ {'bank-marketing': {'numEncoder_Encoding': 1.223},
+ 'electricity': {'numEncoder_Encoding': 0.624},
+ 'KDDCup09_upselling': {'numEncoder_Encoding': 0.815},
+ 'compass': {'numEncoder_Encoding': 0.72},
+ 'wine_quality': {'numEncoder_Encoding': 0.016},
+ 'california': {'numEncoder_Encoding': 0.004},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 9.318},
+ 'house_sales': {'numEncoder_Encoding': 0.024}}
+
+ Results - MLP 
+
+ {'bank-marketing': {'numEncoder_Encoding': 78.866},
+ 'electricity': {'numEncoder_Encoding': 84.783},
+ 'KDDCup09_upselling': {'numEncoder_Encoding': 76.143},
+ 'compass': {'numEncoder_Encoding': 74.856},
+ 'wine_quality': {'numEncoder_Encoding': 0.683},
+ 'california': {'numEncoder_Encoding': 0.157},
+ 'Bike_Sharing_Demand': {'numEncoder_Encoding': 62.583},
+ 'house_sales': {'numEncoder_Encoding': 0.209}}
+
+
+
+ -------------------------------------------------------------------------------------------------
  Feature2Vec - regression Transformer
 
- {'wine_quality': {'feature2vec': 0.004},
- 'california': {'feature2vec': 0.003},
- 'Bike_Sharing_Demand': {'feature2vec': 2.15},
- 'house_sales': {'feature2vec': 0.011}}
-
-Feature2Vec - regression MLP
-
-{'wine_quality': {'feature2vec': 0.005},
+{'wine_quality': {'feature2vec': 0.013},
  'california': {'feature2vec': 0.002},
- 'Bike_Sharing_Demand': {'feature2vec': 1.689},
- 'house_sales': {'feature2vec': 0.003}}
+ 'Bike_Sharing_Demand': {'feature2vec': 2.382},
+ 'house_sales': {'feature2vec': 0.012}}
 
-Feature2Vec - classification MLP
-
-{'bank-marketing': {'feature2vec': 0.239},
- 'electricity': {'feature2vec': 0.21},
- 'KDDCup09_upselling': {'feature2vec': 0.935},
- 'compass': {'feature2vec': 0.24}}
-
+ 
 Feature2Vec - classification Transformer
 
-{'bank-marketing': {'feature2vec': 0.232},
- 'electricity': {'feature2vec': 0.584},
- 'KDDCup09_upselling': {'feature2vec': 1.074},
- 'compass': {'feature2vec': 0.652}}
+{'bank-marketing': {'feature2vec': 0.436},
+ 'electricity': {'feature2vec': 0.076},
+ 'KDDCup09_upselling': {'feature2vec': 0.86},
+ 'compass': {'feature2vec': 1.22}}
+
+

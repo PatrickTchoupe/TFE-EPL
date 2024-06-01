@@ -1,10 +1,15 @@
 import numpy as np
 import torch
-
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 
-seed_valeur = 42  # 
+
+# All the code come from the following source:
+# edouard.couplet@uclouvain.be
+
+
+
+seed_valeur = 42  
 np.random.seed(seed_valeur)
 torch.manual_seed(seed_valeur)
 

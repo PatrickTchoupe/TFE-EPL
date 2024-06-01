@@ -1,10 +1,13 @@
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder, KBinsDiscretizer
-
 import torch
 from torch import nn
 import torch.optim as optim
 import random
+
+
+# All the code come from the following source:
+# edouard.couplet@uclouvain.be
 
 seed_value = 42  
 
@@ -28,7 +31,7 @@ class FeatureTransformInfo(object):
 # Essentially, we apply one-hot encoding on categorical variables, and also on numerilcal variables after a discretizeation step
 class DataCategorizer(object):
 
-    def __init__(self, n_bins=3, strategy='kmeans'):
+    def __init__(self, n_bins=24, strategy='kmeans'):
 
         self.n_bins = n_bins # number of bins for discretizing the numerical features
         self.strategy = strategy
